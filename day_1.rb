@@ -10,4 +10,7 @@ lists = input.map(&:strip).map { |s| s.split(/\s+/) }.reduce({ left: [], right: 
   accum
 end
 
-puts LocationComparator.new(**lists).total_distance
+comparator = LocationComparator.new(**lists)
+
+puts "Total Distance: #{comparator.total_distance}"
+puts "Similarity Score: #{comparator.similarity_score}"
