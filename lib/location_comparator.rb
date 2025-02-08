@@ -15,4 +15,18 @@ class LocationComparator
       end
     end
   end
+
+  def similarity_score
+    if @similarity_score.nil?
+      right_occurence_counts = right.reduce(Hash.new(0)) do |accum, right_location|
+        accum[right_location] += 1
+        accum
+      end
+
+      @similarity_score = left.reduce(0) do |running_score, left_location|
+        running_score + left_location * right_occurence_counts[left_location]
+      end
+    end
+    @similarity_score
+  end
 end

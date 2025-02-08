@@ -20,4 +20,8 @@ describe LocationComparator do
   it "calculates the distance between the two lists" do
     expect(LocationComparator.new(left: [4, 2, 12], right: [6, 5, 9]).total_distance).to eq 8
   end
+
+  it "calculates a similarity score between the two lists" do
+    expect(LocationComparator.new(left: [4, 2, 12, 6], right: [5, 2, 2, 12]).similarity_score).to eq 16
+  end
 end
