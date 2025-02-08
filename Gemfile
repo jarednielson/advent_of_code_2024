@@ -5,5 +5,5 @@ source 'https://rubygems.org'
 gem 'solargraph'
 
 group :test do
-  gem 'minitest'
+  gem 'rspec'
 end
