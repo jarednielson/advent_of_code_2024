@@ -1,4 +1,4 @@
-class DistanceFinder
+class LocationComparator
   class ListLengthMismatch < StandardError; end
   attr_reader :left, :right
 

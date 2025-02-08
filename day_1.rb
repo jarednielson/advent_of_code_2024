@@ -1,6 +1,6 @@
 #!ruby
 
-require_relative 'lib/distance_finder'
+require_relative 'lib/location_comparator'
 
 input = File.readlines("input/day_1")
 
@@ -10,4 +10,4 @@ lists = input.map(&:strip).map { |s| s.split(/\s+/) }.reduce({ left: [], right: 
   accum
 end
 
-puts DistanceFinder.new(**lists).total_distance
+puts LocationComparator.new(**lists).total_distance
