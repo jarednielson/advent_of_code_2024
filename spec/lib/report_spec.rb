@@ -10,8 +10,9 @@ describe Report do
     expect(Report.new(levels: [7, 6, 4, 2, 1]).safe?).to eq true
     expect(Report.new(levels: [1, 2, 7, 8, 9]).safe?).to eq false
     expect(Report.new(levels: [9, 7, 6, 2, 1]).safe?).to eq false
-    expect(Report.new(levels: [1, 3, 2, 4, 5]).safe?).to eq false
-    expect(Report.new(levels: [8, 6, 4, 4, 1]).safe?).to eq false
+    expect(Report.new(levels: [1, 3, 2, 4, 5]).safe?).to eq true
+    expect(Report.new(levels: [8, 6, 4, 4, 1]).safe?).to eq true
     expect(Report.new(levels: [1, 3, 6, 7, 9]).safe?).to eq true
+    expect(Report.new(levels: [1, 3, 6, 5, 10]).safe?).to eq false
   end
 end
