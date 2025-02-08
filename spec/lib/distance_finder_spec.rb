@@ -16,4 +16,8 @@ describe DistanceFinder do
       }.to raise_error DistanceFinder::ListLengthMismatch
     end
   end
+
+  it "calculates the distance between the two lists" do
+    expect(DistanceFinder.new(left: [4, 2, 12], right: [6, 5, 9]).total_distance).to eq 8
+  end
 end

@@ -7,4 +7,12 @@ class DistanceFinder
     @left = left.sort
     @right = right.sort
   end
+
+  def total_distance
+    if @total_distance.nil?
+      left.zip(right).reduce(0) do |total_distance, (left_location, right_location)|
+        total_distance += (left_location - right_location).abs
+      end
+    end
+  end
 end
