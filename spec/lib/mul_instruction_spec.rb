@@ -8,8 +8,8 @@ describe MulInstruction do
   context "when the instruction is properly formatted" do
     let(:instruction) { "mul(20,31)" }
 
-    it "can read and evaluate the instruction" do
-      expect(mul_instruction.eval).to eq 20 * 31
+    it "can read and interpret the instruction" do
+      expect(mul_instruction.interp).to eq 20 * 31
     end
 
     it "has an l_operand" do

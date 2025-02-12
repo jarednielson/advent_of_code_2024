@@ -15,7 +15,7 @@ class MulInstruction
     @r_operand = match_data[2].to_i
   end
 
-  def eval
+  def interp
     l_operand * r_operand
   end
 end
