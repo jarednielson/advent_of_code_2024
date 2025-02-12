@@ -1,10 +1,10 @@
 #froze_string_literal: true
 
 require 'spec_helper'
-require 'lib/instruction_builder'
+require 'lib/instruction_parser'
 
-describe InstructionBuilder do
-  subject(:builder) { InstructionBuilder.new(raw_instruction: raw_instruction).instruction }
+describe InstructionParser do
+  subject(:builder) { InstructionParser.new(raw_instruction: raw_instruction).instruction }
 
   context "when the instruction is a mul instruction" do
     let(:raw_instruction) { "mul(2,3)" }
@@ -32,7 +32,7 @@ describe InstructionBuilder do
 
   describe ".instructions" do
     it "maps all the instructions in the array" do
-      instructions = InstructionBuilder.instructions(raw_instructions: %w[mul(1,2) do() don't()])
+      instructions = InstructionParser.instructions(raw_instructions: %w[mul(1,2) do() don't()])
       expect(instructions.map(&:class)).to eq [MulInstruction, DoInstruction, DontInstruction]
     end
   end

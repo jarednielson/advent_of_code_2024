@@ -4,7 +4,7 @@ require 'lib/mul_instruction'
 require 'lib/do_instruction'
 require 'lib/dont_instruction'
 
-class InstructionBuilder
+class InstructionParser
   attr_reader :raw_instruction
 
   def self.instructions(raw_instructions:)
