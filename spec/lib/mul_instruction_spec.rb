@@ -1,5 +1,6 @@
 #frozen_string_literal: true
 
+require 'ostruct'
 require 'spec_helper'
 require 'lib/mul_instruction'
 
@@ -16,5 +17,15 @@ describe MulInstruction do
 
   it "has an r_operand" do
     expect(mul_instruction.r_operand).to eq 31
+  end
+
+  context "when given state" do
+    let(:state) { OpenStruct.new(on: true, result: 0) }
+
+    it "appends the result to state" do
+      mul_instruction.interp(state)
+
+      expect(state.result).to eq 20 * 31
+    end
   end
 end

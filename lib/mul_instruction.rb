@@ -10,6 +10,10 @@ class MulInstruction
   end
 
   def interp(state = nil)
-    l_operand * r_operand
+    result = l_operand * r_operand
+    if state && state.on
+      state.result += result
+    end
+    result
   end
 end
