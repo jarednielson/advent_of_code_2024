@@ -14,5 +14,6 @@ describe Report do
     expect(Report.new(levels: [8, 6, 4, 4, 1]).safe?).to eq true
     expect(Report.new(levels: [1, 3, 6, 7, 9]).safe?).to eq true
     expect(Report.new(levels: [1, 3, 6, 5, 10]).safe?).to eq false
+    expect(Report.new(levels: [1, 3, 5, 4, 2]).safe?).to eq false
   end
 end

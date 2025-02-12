@@ -8,12 +8,11 @@ class Report
   def safe?
     return @safe unless @safe.nil?
 
-    return @safe = safe_with_dampening?
+    @safe = safe_without_dampening? || safe_with_dampening?
   end
 
   def safe_with_dampening?
     potential_indices = [0, levels.length - 1]
-    safe = true
     levels.each_cons(3).each_with_index do |(first, second, third), index|
       strictly_ascending = first < second && second < third
       strictly_descending = first > second && second > third
@@ -30,13 +29,11 @@ class Report
         potential_indices << index + 1
         next
       end
-      safe = false
-      break
     end
-    return true if safe
 
     potential_indices.any? do |potential_index|
-      self.class.new(levels: levels.reject.with_index { |index| index == potential_index }).safe_without_dampening?
+      dampened_levels = levels.reject.with_index { |_, index| index == potential_index }
+      self.class.new(levels: dampened_levels).safe_without_dampening?
     end
   end
 
