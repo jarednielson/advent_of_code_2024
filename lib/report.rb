@@ -8,39 +8,50 @@ class Report
   def safe?
     return @safe unless @safe.nil?
 
-    return @safe = true if bad_levels_from_distance.empty? && bad_levels_from_decreasing.empty? && bad_levels_from_increasing.empty?
-    return @safe = true if bad_levels_from_distance.empty? || (bad_levels_from_distance.length == 1 && (bad_levels_from_distance == bad_levels_from_decreasing || bad_levels_from_distance == bad_levels_from_increasing))
-
-    @safe = false
+    return @safe = safe_with_dampening?
   end
 
+  def safe_with_dampening?
+    potential_indices = [0, levels.length - 1]
+    safe = true
+    levels.each_cons(3).each_with_index do |(first, second, third), index|
+      strictly_ascending = first < second && second < third
+      strictly_descending = first > second && second > third
 
-  private
+      gap_safe = (first - second).abs.between?(1, 3) && (second - third).abs.between?(1, 3)
 
-  def bad_levels_from_distance
-    @bad_levels_from_distance ||= levels.each_cons(2).each_with_index.map do |(first, second), index|
-      index unless (first - second).abs.between?(1, 3)
-    end.compact
+      next if (strictly_ascending || strictly_descending) && gap_safe
+
+      strictly_ascending = first < third
+      strictly_descending = first > third
+      gap_safe = (first - third).abs.between?(1, 3)
+
+      if (strictly_ascending || strictly_descending) && gap_safe
+        potential_indices << index + 1
+        next
+      end
+      safe = false
+      break
+    end
+    return true if safe
+
+    potential_indices.any? do |potential_index|
+      self.class.new(levels: levels.reject.with_index { |index| index == potential_index }).safe_without_dampening?
+    end
   end
 
+  def safe_without_dampening?
+    strictly_increasing = levels.each_cons(2).reduce(true) do |accum, (first, second)|
+      accum && first < second
+    end
+    strictly_decreasing = levels.each_cons(2).reduce(true) do |accum, (first, second)|
+      accum && first > second
+    end
 
-  def bad_levels_from_decreasing
-    return @bad_levels_from_decreasing unless @bad_levels_from_decreasing.nil?
+    gap_safe = levels.each_cons(2).reduce(true) do |accum, (first, second)|
+      accum && (first - second).abs.between?(1, 3)
+    end
 
-    bad_levels = levels.each_cons(2).each_with_index.map do |(first, second), index|
-      index if first >= second
-    end.compact
-
-    @bad_levels_from_decreasing = (bad_levels.length == 0  || bad_levels.length == levels.length - 1) ? [] : bad_levels
-  end
-
-  def bad_levels_from_increasing
-    return @bad_levels_from_increasing unless @bad_levels_from_increasing.nil?
-
-    bad_levels = levels.each_cons(2).each_with_index.map do |(first, second), index|
-      index if first <= second
-    end.compact
-
-    @bad_levels_from_increasing = (bad_levels.length == 0  || bad_levels.length == levels.length - 1) ? [] : bad_levels
+    (strictly_decreasing ^ strictly_increasing) && gap_safe
   end
 end
