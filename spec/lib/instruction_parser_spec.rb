@@ -4,12 +4,16 @@ require 'spec_helper'
 require 'lib/instruction_parser'
 
 describe InstructionParser do
-  subject(:builder) { InstructionParser.new(raw_instruction: raw_instruction).instruction }
+  subject(:instruction) { InstructionParser.new(raw_instruction: raw_instruction).instruction }
 
   context "when the instruction is a mul instruction" do
     let(:raw_instruction) { "mul(2,3)" }
 
     it { is_expected.to be_a MulInstruction }
+
+    it "is built with integers" do
+      expect(instruction.interp).to eq 6
+    end
   end
 
   context "when the instruction is a do instruction" do
