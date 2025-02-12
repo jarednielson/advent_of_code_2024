@@ -2,7 +2,7 @@
 
 require 'ostruct'
 require 'spec_helper'
-require 'lib/mul_instruction'
+require 'lib/computer/mul_instruction'
 
 describe MulInstruction do
   subject(:mul_instruction) { MulInstruction.new(l_operand: 20, r_operand: 31) }

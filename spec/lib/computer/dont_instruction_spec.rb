@@ -2,7 +2,7 @@
 
 require 'ostruct'
 require 'spec_helper'
-require 'lib/dont_instruction'
+require 'lib/computer/dont_instruction'
 
 describe DontInstruction do
   subject(:dont_instruction) { DontInstruction.new }

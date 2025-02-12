@@ -2,7 +2,7 @@
 
 require 'ostruct'
 require 'spec_helper'
-require 'lib/do_instruction'
+require 'lib/computer/do_instruction'
 
 describe DoInstruction do
   subject(:do_instruction) { DoInstruction.new }

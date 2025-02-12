@@ -1,7 +1,7 @@
 #frozen_string_literal: true
 
 require 'spec_helper'
-require 'lib/instruction_cleaner'
+require 'lib/computer/instruction_cleaner'
 
 describe InstructionCleaner do
   it "parses corrupted multiplication instructions" do

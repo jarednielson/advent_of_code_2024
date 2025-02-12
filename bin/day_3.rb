@@ -1,10 +1,8 @@
 #! ruby
 
-$LOAD_PATH.unshift(File.expand_path('..', File.dirname(__FILE__)))
-
-require_relative '../lib/instruction_cleaner'
-require_relative '../lib/instruction_parser'
-require_relative '../lib/interpreter'
+require_relative '../lib/computer/instruction_cleaner'
+require_relative '../lib/computer/instruction_parser'
+require_relative '../lib/computer/interpreter'
 
 
 memory = File.read(File.expand_path("../input/day_3", File.dirname(__FILE__)))

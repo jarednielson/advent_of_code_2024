@@ -1,8 +1,8 @@
 #frozen_string_literal
 
-require 'lib/mul_instruction'
-require 'lib/do_instruction'
-require 'lib/dont_instruction'
+require_relative './mul_instruction'
+require_relative './do_instruction'
+require_relative './dont_instruction'
 
 class InstructionParser
   attr_reader :raw_instruction

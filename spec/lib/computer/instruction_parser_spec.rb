@@ -1,7 +1,7 @@
 #froze_string_literal: true
 
 require 'spec_helper'
-require 'lib/instruction_parser'
+require 'lib/computer/instruction_parser'
 
 describe InstructionParser do
   subject(:instruction) { InstructionParser.new(raw_instruction: raw_instruction).instruction }
