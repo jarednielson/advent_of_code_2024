@@ -7,6 +7,12 @@ require 'lib/dont_instruction'
 class InstructionBuilder
   attr_reader :raw_instruction
 
+  def self.instructions(raw_instructions:)
+    raw_instructions.map do |raw_instruction|
+      new(raw_instruction: raw_instruction).instruction
+    end
+  end
+
   def initialize(raw_instruction:)
     @raw_instruction = raw_instruction
   end

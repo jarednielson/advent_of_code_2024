@@ -29,4 +29,11 @@ describe InstructionBuilder do
 
     it { is_expected.to be_nil }
   end
+
+  describe ".instructions" do
+    it "maps all the instructions in the array" do
+      instructions = InstructionBuilder.instructions(raw_instructions: %w[mul(1,2) do() don't()])
+      expect(instructions.map(&:class)).to eq [MulInstruction, DoInstruction, DontInstruction]
+    end
+  end
 end
