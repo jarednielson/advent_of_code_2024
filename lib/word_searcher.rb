@@ -13,16 +13,14 @@ class WordSearcher
 
     @num_occurences = 0
 
+    directions = %i[up down left right up_left up_right down_left down_right]
+
     puzzle.each_with_index do |row, row_index|
       row.each_with_index do |char, col_index|
-        @num_occurences += 1 if matches_left?(row_index, col_index, 0)
-        @num_occurences += 1 if matches_right?(row_index, col_index, 0)
-        @num_occurences += 1 if matches_up?(row_index, col_index, 0)
-        @num_occurences += 1 if matches_down?(row_index, col_index, 0)
-        @num_occurences += 1 if matches_up_right?(row_index, col_index, 0)
-        @num_occurences += 1 if matches_up_left?(row_index, col_index, 0)
-        @num_occurences += 1 if matches_down_right?(row_index, col_index, 0)
-        @num_occurences += 1 if matches_down_left?(row_index, col_index, 0)
+        @num_occurences += directions.reduce(0) do |accum, direction|
+          accum += 1 if matches?(row_index, col_index, 0, direction)
+          accum
+        end
       end
     end
 
@@ -31,60 +29,30 @@ class WordSearcher
 
   private
 
-  def matches_right?(row, col, target_idx)
+  def matches?(row, col, target_idx, direction)
     return true if target_idx == target.length
     return false unless char_at(row, col) == target_char_at(target_idx)
 
-    matches_right?(row, col + 1, target_idx + 1)
+    next_row, next_col = next_indices(row, col, direction)
+    matches?(next_row, next_col, target_idx + 1, direction)
   end
 
-  def matches_left?(row, col, target_idx)
-    return true if target_idx == target.length
-    return false unless char_at(row, col) == target_char_at(target_idx)
-
-    matches_left?(row, col - 1, target_idx + 1)
+  def next_indices(row, col, direction)
+    transform = transforms[direction]
+    [row, col].zip(transform).map { |pos, shift| pos + shift }
   end
 
-  def matches_up?(row, col, target_idx)
-    return true if target_idx == target.length
-    return false unless char_at(row, col) == target_char_at(target_idx)
-
-    matches_up?(row - 1, col, target_idx + 1)
-  end
-
-  def matches_down?(row, col, target_idx)
-    return true if target_idx == target.length
-    return false unless char_at(row, col) == target_char_at(target_idx)
-
-    matches_down?(row + 1, col, target_idx + 1)
-  end
-
-  def matches_up_right?(row, col, target_idx)
-    return true if target_idx == target.length
-    return false unless char_at(row, col) == target_char_at(target_idx)
-
-    matches_up_right?(row - 1, col + 1, target_idx + 1)
-  end
-
-  def matches_up_left?(row, col, target_idx)
-    return true if target_idx == target.length
-    return false unless char_at(row, col) == target_char_at(target_idx)
-
-    matches_up_left?(row - 1, col - 1, target_idx + 1)
-  end
-
-  def matches_down_right?(row, col, target_idx)
-    return true if target_idx == target.length
-    return false unless char_at(row, col) == target_char_at(target_idx)
-
-    matches_down_right?(row + 1, col + 1, target_idx + 1)
-  end
-
-  def matches_down_left?(row, col, target_idx)
-    return true if target_idx == target.length
-    return false unless char_at(row, col) == target_char_at(target_idx)
-
-    matches_down_left?(row + 1, col - 1, target_idx + 1)
+  def transforms
+    @transforms ||= {
+      up: [-1, 0],
+      down: [1, 0],
+      left: [0, -1],
+      right: [0, 1],
+      up_left: [-1, -1],
+      up_right: [-1, 1],
+      down_left: [1, -1],
+      down_right: [1, 1]
+    }
   end
 
   def target_char_at(idx)
