@@ -9,6 +9,6 @@ describe DependencyGraph do
     dependencies = ["47|53", "47|20"]
     graph = DependencyGraph.new(dependencies: dependencies)
 
-    expect(graph.dependents("47")).to match_array ["53", "20"]
+    expect(graph.dependents("47")).to eq ["53", "20"].to_set
   end
 end

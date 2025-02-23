@@ -15,7 +15,7 @@ class DependencyGraph
 
   def dependents(value)
     return [] unless graph.key?(value)
-    graph[value].dependents.map(&:value)
+    graph[value].dependents.map(&:value).to_set
   end
 
   private
