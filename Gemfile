@@ -2,8 +2,8 @@
 
 source 'https://rubygems.org'
 
-gem 'solargraph'
-
 group :test do
+  gem 'ruby-debug-ide'
+  gem 'debug'
   gem 'rspec'
 end
