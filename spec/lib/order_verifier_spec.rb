@@ -38,4 +38,23 @@ describe OrderVerifier do
       it { is_expected.to be false }
     end
   end
+
+  context "when the graph contains cyclic dependencies" do
+    let(:graph) do
+      dependencies = %w[1|2 2|3 2|4 4|1 3|5]
+      DependencyGraph.new(dependencies: dependencies)
+    end
+
+    context "when the ordering contains the dependency" do
+      subject { verifier.valid_order?(order: %w[1 2 4]) }
+
+      it { is_expected.to be false }
+    end
+
+    context "when the ordering does not contain the dependency" do
+      subject { verifier.valid_order?(order: %w[2 3 5]) }
+
+      it { is_expected.to be true }
+    end
+  end
 end
