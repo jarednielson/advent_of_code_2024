@@ -13,13 +13,17 @@ class DependencyGraph
     end
   end
 
+  def contains?(value)
+    graph.key?(value)
+  end
+
   def dependents(value)
-    return [] unless graph.key?(value)
+    return [] unless contains?(value)
     graph[value].dependents.values.map(&:value).to_set
   end
 
   def descendant?(ancestor:, descendant:)
-    return false unless graph.key?(ancestor) && graph.key?(descendant)
+    return false unless contains?(ancestor) && contains?(descendant)
 
     ancestor = graph[ancestor]
     descendant = graph[descendant]
