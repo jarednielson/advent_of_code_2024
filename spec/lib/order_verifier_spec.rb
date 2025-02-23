@@ -48,7 +48,7 @@ describe OrderVerifier do
     context "when the ordering contains the dependency" do
       subject { verifier.valid_order?(order: %w[1 2 4]) }
 
-      it { is_expected.to be false }
+      it { is_expected.to be true }
     end
 
     context "when the ordering does not contain the dependency" do

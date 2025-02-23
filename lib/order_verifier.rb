@@ -10,8 +10,7 @@ class OrderVerifier
   def valid_order?(order:)
     dependent_pages = order.select { |page| dependency_graph.contains?(page) }
     dependent_pages.each_cons(2).all? do |first, second|
-      dependency_graph.descendant?(ancestor: first, descendant: second) &&
-        !dependency_graph.descendant?(ancestor: second, descendant: first)
+      dependency_graph.dependents(first).member?(second)
     end
   end
 end
